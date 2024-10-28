@@ -129,37 +129,14 @@ static List<List<T>> GetAllStableCompanies<T>(ConflictsDataBase<T> conflictsData
 
 static (List<T>, List<T>, List<T>) SplitSubjects<T>(List<T> subjects, T s1, T s2)
 {
-    List<T> l1 = new(subjects.Count);
-    List<T> l2 = new(subjects.Count);
-    List<T> l3 = new(subjects.Count);
+    List<T> l1 = new(subjects);
+    List<T> l2 = new(subjects);
 
-    Action<List<T>, T> CreateCopier(T subject)
-    {
-        Action<List<T>, T> copier = (l, s) =>
-        {
-            if(s.Equals(subject))
-            {
-                copier = (a, b) => a.Add(b);
-                return;
-            }
+    l1.Remove(s1);
+    l2.Remove(s2);
 
-            l.Add(s);
-        };
-
-        return copier;
-    }
-
-    Action<List<T>, T> CopyExS1 = CreateCopier(s1);
-    Action<List<T>, T> CopyExS2 = CreateCopier(s2);
-
-    foreach(T subject in subjects)
-    {
-        CopyExS1(l1, subject);
-        CopyExS2(l2, subject);
-
-        if(!subject.Equals(s1) && !subject.Equals(s2))
-            l3.Add(subject);
-    }
+    List<T> l3 = new(l1);
+    l3.Remove(s2);
 
     return (l1, l2, l3);
 }
