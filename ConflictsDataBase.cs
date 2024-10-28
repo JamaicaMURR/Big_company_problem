@@ -14,10 +14,10 @@ namespace Big_company_problem
         {
             _conflictMatrix = new Dictionary<T, List<T>>();
         }
-        
+
         public void AddConflict(T a, T b)
         {
-            if(a is not null && b is not null)
+            if(a is not null && b is not null && !a.Equals(b))
             {
                 if(!_conflictMatrix.ContainsKey(a))
                     _conflictMatrix.Add(a, new List<T>() { b });
